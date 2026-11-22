@@ -1,0 +1,281 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Imperial Blox</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#090909;color:white;font-family:Arial,sans-serif}
+header{
+ background:#111;border-bottom:1px solid #a77d20;
+ padding:20px 6%;display:flex;justify-content:space-between;
+ align-items:center;flex-wrap:wrap;gap:15px
+}
+.logo{font-size:25px;font-weight:900;color:#e9bd50}
+nav{display:flex;gap:20px;flex-wrap:wrap}
+nav button{
+ background:none;border:0;color:#ccc;cursor:pointer;font-size:14px
+}
+nav button:hover{color:#e9bd50}
+.page{display:none;padding:45px 7%;min-height:75vh}
+.page.active{display:block}
+h1,h2{color:#e9bd50}
+h1{font-size:38px}
+h2{margin-bottom:25px}
+p{color:#aaa;line-height:1.6}
+.hero{
+ background:linear-gradient(120deg,#241b0a,#101010 65%);
+ border:1px solid #74571c;border-radius:18px;
+ padding:65px 25px;margin-bottom:45px
+}
+.hero p{margin:15px 0 25px}
+.btn{
+ background:#d5a52e;color:#111;border:0;
+ padding:12px 20px;border-radius:7px;
+ font-weight:bold;cursor:pointer
+}
+.grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+ gap:20px
+}
+.tile{
+ aspect-ratio:1/1;background:linear-gradient(145deg,#242019,#141414);
+ border:1px solid #39322a;border-radius:15px;
+ display:flex;flex-direction:column;justify-content:center;
+ align-items:center;text-align:center;padding:20px;
+ cursor:pointer;transition:.2s
+}
+.tile:hover{transform:translateY(-5px);border-color:#e9bd50}
+.tile .emoji{font-size:42px;margin-bottom:18px}
+.tile h3{color:#e9bd50;margin-bottom:8px}
+.tile p{font-size:13px}
+.card{
+ background:#151515;border:1px solid #333;
+ border-radius:13px;padding:20px
+}
+.card h3{color:#e9bd50;margin-bottom:12px}
+.card p{margin-bottom:12px}
+.price{font-size:22px;font-weight:bold;margin:15px 0}
+.product-image{
+ height:135px;border-radius:9px;
+ background:linear-gradient(135deg,#33270f,#151515);
+ display:flex;align-items:center;justify-content:center;
+ font-size:48px;margin-bottom:18px
+}
+.back{margin-bottom:25px;background:#292929;color:white}
+footer{
+ padding:30px;text-align:center;color:#777;
+ border-top:1px solid #333
+}
+@media(max-width:600px){
+ header{justify-content:center}
+ nav{justify-content:center}
+ .page{padding:30px 5%}
+ h1{font-size:29px}
+}
+</style>
+</head>
+<body>
+
+<header>
+ <div class="logo">👑 IMPERIAL BLOX</div>
+ <nav>
+  <button onclick="go('home')">Início</button>
+  <button onclick="go('categories')">Contas</button>
+  <button onclick="go('about')">Sobre</button>
+  <button onclick="go('profile')">Meu perfil</button>
+ </nav>
+</header>
+
+<!-- INÍCIO -->
+<section id="home" class="page active">
+ <div class="hero">
+  <h1>IMPERIAL BLOX</h1>
+  <p>O seu universo de Blox Fruits começa aqui.</p>
+  <button class="btn" onclick="go('categories')">
+   EXPLORAR CONTAS
+  </button>
+ </div>
+
+ <h2>Explore nossa loja</h2>
+ <div class="grid">
+  <div class="tile" onclick="go('categories')">
+   <div class="emoji">🎮</div>
+   <h3>Contas Blox Fruits</h3>
+   <p>Explorar catálogo</p>
+  </div>
+  <div class="tile" onclick="go('profile')">
+   <div class="emoji">👤</div>
+   <h3>Meu perfil</h3>
+   <p>Área do cliente</p>
+  </div>
+  <div class="tile" onclick="go('about')">
+   <div class="emoji">👑</div>
+   <h3>Imperial Blox</h3>
+   <p>Conheça a loja</p>
+  </div>
+ </div>
+</section>
+
+<!-- CATEGORIAS -->
+<section id="categories" class="page">
+ <h2>Categorias de contas</h2>
+ <p style="margin-bottom:25px">
+  Escolha uma categoria para explorar.
+ </p>
+
+ <div class="grid">
+  <div class="tile" onclick="showCategory('premium')">
+   <div class="emoji">👑</div>
+   <h3>Contas Premium</h3>
+   <p>Ver categoria</p>
+  </div>
+
+  <div class="tile" onclick="showCategory('evoluidas')">
+   <div class="emoji">🔥</div>
+   <h3>Contas Evoluídas</h3>
+   <p>Ver categoria</p>
+  </div>
+
+  <div class="tile" onclick="showCategory('raras')">
+   <div class="emoji">💎</div>
+   <h3>Contas Especiais</h3>
+   <p>Ver categoria</p>
+  </div>
+
+  <div class="tile" onclick="showCategory('iniciante')">
+   <div class="emoji">⚔️</div>
+   <h3>Contas Iniciantes</h3>
+   <p>Ver categoria</p>
+  </div>
+ </div>
+</section>
+
+<!-- PRODUTOS -->
+<section id="catalog" class="page">
+ <button class="btn back" onclick="go('categories')">
+  ← Voltar
+ </button>
+ <h2 id="categoryTitle">Contas</h2>
+ <div class="grid" id="productGrid"></div>
+</section>
+
+<!-- DETALHES -->
+<section id="details" class="page">
+ <button class="btn back" onclick="go('catalog')">
+  ← Voltar
+ </button>
+ <div class="card" id="productDetails"></div>
+</section>
+
+<!-- PERFIL -->
+<section id="profile" class="page">
+ <h2>👤 Área do cliente</h2>
+ <div class="grid">
+  <div class="tile">
+   <div class="emoji">🔐</div>
+   <h3>Minha conta</h3>
+   <p>Área de identificação</p>
+  </div>
+  <div class="tile">
+   <div class="emoji">📦</div>
+   <h3>Meus pedidos</h3>
+   <p>Histórico de compras</p>
+  </div>
+  <div class="tile">
+   <div class="emoji">⭐</div>
+   <h3>Minha atividade</h3>
+   <p>Área do cliente</p>
+  </div>
+ </div>
+</section>
+
+<!-- SOBRE -->
+<section id="about" class="page">
+ <h2>Sobre a Imperial Blox</h2>
+ <div class="card">
+  <h3>👑 Nossa loja</h3>
+  <p>
+   A Imperial Blox é um projeto dedicado ao universo
+   de Blox Fruits, com uma experiência organizada
+   para apresentar nossas categorias e produtos.
+  </p>
+ </div>
+</section>
+
+<footer>
+ © 2026 Imperial Blox
+ <p>Uma experiência feita para fãs de Blox Fruits.</p>
+</footer>
+
+<script>
+const categories={
+ premium:"Contas Premium",
+ evoluidas:"Contas Evoluídas",
+ raras:"Contas Especiais",
+ iniciante:"Contas Iniciantes"
+};
+
+let currentCategory="premium";
+
+const products={
+ premium:[
+  {name:"Conta Premium 01",description:"Espaço para descrição das características.",price:"Consultar"},
+  {name:"Conta Premium 02",description:"Espaço para descrição das características.",price:"Consultar"}
+ ],
+ evoluidas:[
+  {name:"Conta Evoluída 01",description:"Espaço para descrição das características.",price:"Consultar"}
+ ],
+ raras:[
+  {name:"Conta Especial 01",description:"Espaço para descrição das características.",price:"Consultar"}
+ ],
+ iniciante:[
+  {name:"Conta Iniciante 01",description:"Espaço para descrição das características.",price:"Consultar"}
+ ]
+};
+
+function go(id){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ window.scrollTo(0,0);
+}
+
+function showCategory(category){
+ currentCategory=category;
+ document.getElementById("categoryTitle").textContent=categories[category];
+ const grid=document.getElementById("productGrid");
+ grid.innerHTML="";
+
+ products[category].forEach((product,index)=>{
+  const card=document.createElement("div");
+  card.className="card";
+  card.innerHTML=`
+   <div class="product-image">🎮</div>
+   <h3>${product.name}</h3>
+   <p>${product.description}</p>
+   <div class="price">${product.price}</div>
+   <button class="btn">Ver detalhes</button>
+  `;
+  card.querySelector("button").onclick=()=>showDetails(category,index);
+  grid.appendChild(card);
+ });
+ go("catalog");
+}
+
+function showDetails(category,index){
+ const product=products[category][index];
+ document.getElementById("productDetails").innerHTML=`
+  <div class="product-image">👑</div>
+  <h2>${product.name}</h2>
+  <p>${product.description}</p>
+  <div class="price">${product.price}</div>
+  <p>Consulte as informações e condições do produto.</p>
+ `;
+ go("details");
+}
+</script>
+</body>
+</html>
